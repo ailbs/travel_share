@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from . import api
+from .app import api
 
 
 def create_app(test_config=None):
