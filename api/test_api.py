@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 from ..models.user import User
-from ..utils.db import db
+from ..utils.db import get_db
 
 
 api = Blueprint('api', __name__)
@@ -13,6 +13,7 @@ def test():
 
 @api.route("/user/<int:id>")
 def user_detail(id):
+    db = get_db()
     user = db.get_or_404(User, id)
     print(user)
     return jsonify(user.to_dict())

@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from ..utils.db import db
 
 
@@ -22,7 +21,6 @@ class User(db.Model):
         self.created_at = created_at
         self.updated_at = updated_at
         return self.id
-
 
     def to_dict(self):
         return {

@@ -1,8 +1,7 @@
 import os
 from flask import Flask
 from . import api
-from .utils.db import db
-from .utils import logger
+from .utils import db,logger
 
 __version__ = (1, 0, 0, "dev")
 
