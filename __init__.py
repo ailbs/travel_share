@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from app.extends import route_register
 from . import api
 from .utils import db,logger
 
@@ -23,6 +24,13 @@ def create_app(test_config=None):
     db.init_app(app)
     # 初始化日志： 使用方式 app.logger.info('message')
     logger.init_app(app)
+
+    # 创建jwt实例
+    from app.extends.jwt import jwt
+    jwt.init_app(app)
+
+    # 初始化路由
+    route_register.init_app(app)
 
     try:
         os.makedirs(app.instance_path)
