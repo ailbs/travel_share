@@ -1,2 +1,4 @@
 JSON_AS_ASCII = False
 JSONIFY_MIMETYPE = 'application/json;charset=utf-8'
+JWT_SECRET_KEY = '12345678'
+JWT_REQUIRED_DEFAULT = True
