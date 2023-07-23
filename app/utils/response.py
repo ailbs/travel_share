@@ -5,7 +5,7 @@ class Response:
     # 标准成功代码
     ok_code = 0
     # 标准错误代码
-    err_code = 1
+    err_code = 1000000
 
     def __init__(self, code=ok_code, message='', data=None):
         self._code = code
@@ -13,11 +13,11 @@ class Response:
         self._data = data
 
     @staticmethod
-    def OK():
+    def Ok():
         return Response()
 
     @staticmethod
-    def ERR(code=err_code):
+    def Err(code=err_code):
         return Response(code)
 
     # 设置数据
