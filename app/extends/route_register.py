@@ -1,11 +1,6 @@
-from flask import request
-
 from app import api
 from app import auth
-
-from flask_jwt_extended import get_jwt_header
-from flask_jwt_extended import verify_jwt_in_request
-
+from ..extends import authorization
 
 # 初始化路由
 def init_app(app):
@@ -18,10 +13,7 @@ def init_app(app):
 
 
 def before_request():
-    if request.endpoint != 'static':
-        # 验证jwt
-        verify_jwt_in_request()
-        pass
-    else:
-        pass
-    print('before request execute')
+    print('__before_request execute__')
+    # 执行授权认证
+    authorization.request_auth()
+

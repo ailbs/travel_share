@@ -1,8 +1,7 @@
 import os
 from flask import Flask
 from app.extends import route_register
-from . import api
-from .utils import db,logger
+from app.utils import db,logger
 
 __version__ = (1, 0, 0, "dev")
 
@@ -18,8 +17,6 @@ def create_app(test_config=None):
         # 加载环境配置文件
         app.config.from_mapping(test_config)
 
-    # 初始化路由
-    api.init_app(app)
     # 初始化数据库
     db.init_app(app)
     # 初始化日志： 使用方式 app.logger.info('message')
