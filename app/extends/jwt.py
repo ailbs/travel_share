@@ -1,6 +1,6 @@
 from flask_jwt_extended import JWTManager
-from ..utils.response_vo import Response
-from ..models import User
+from app.utils.response import Response
+from app.models import User
 
 # jwt实例
 jwt = JWTManager()
@@ -25,10 +25,15 @@ def user_lookup_callback(_jwt_header, jwt_data):
 # token失效
 @jwt.expired_token_loader
 def expired_token_callback(jwt_header, jwt_payload):
-    return Response.ERR(401).message('token过期').build(), 401
+    return Response.Err().message('token expire').build(), 401
 
 
 # token无效
 @jwt.invalid_token_loader
 def invalid_token_callback(reason):
-    return Response.ERR(401).message('token无效').build(), 401
+    return Response.Err().message(reason).build(), 401
+
+
+@jwt.unauthorized_loader
+def unauthorized_token_callback(reason):
+    return Response.Err().message(reason).build(), 401

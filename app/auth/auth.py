@@ -2,9 +2,12 @@ import hashlib
 from flask import request
 from flask import Blueprint
 from flask_jwt_extended import create_access_token
-from ..models import User
-from ..extends.authorization import no_auth
-from ..utils.response_vo import Response
+from flask_jwt_extended import create_refresh_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from app.models import User
+from app.extends.authorization import no_auth
+from app.utils.response import Response
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -21,12 +24,16 @@ def login():
         sha1.update(password.encode('utf-8'))
         if user.password == sha1.hexdigest():
             access_token = create_access_token(identity=username)
-            # 保存当前用户token
-            return Response.OK().data({'access_token': access_token}).build()
+            refresh_token = create_refresh_token(identity=username)
+            # 返回信息
+            return Response()\
+                .data({'access_token': access_token, 'refresh_token': refresh_token})\
+                .message('登录成功')\
+                .build()
         else:
-            return Response.ERR().message('用户账号或密码错误').build()
+            return Response.Err().message('用户账号或密码错误').build()
     else:
-        return Response(200, '用户不存在').build()
+        return Response.Err().message('用户不存在').build()
 
 
 @auth.route('/logout', methods=('GET',))
@@ -35,5 +42,9 @@ def logout():
 
 
 @auth.route('/token/refresh', methods=('GET',))
+@jwt_required(refresh=True)
+@no_auth
 def refresh_jwt():
-    pass
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return Response().data({'access_token': access_token}).build()

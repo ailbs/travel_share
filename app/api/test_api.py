@@ -1,5 +1,4 @@
-from flask import Blueprint, jsonify
-from ..extends.authorization import no_auth
+from flask import Blueprint
 
 api = Blueprint('api', __name__)
 
